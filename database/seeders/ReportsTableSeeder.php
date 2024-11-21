@@ -9,38 +9,37 @@ class ReportsTableSeeder extends Seeder
 {
     public function run()
     {
-        // Insert sample reports using Query Builder
         DB::table('reports')->insert([
             [
-                'user_id' => 3,  // Assuming user with ID 1 exists (admin)
-                'description' => 'This is a description for report 1.',
-                'photo' => 'photo1.jpg',
-                'location' => 'Location 1',
+                'user_id' => 2, // ID pengguna admin pertama
+                'description' => 'Laporan mengenai kerusakan jalan di daerah pusat kota.',
+                'photo' => 'kerusakan_jalan.jpg',
+                'location' => 'Jalan Sudirman, Jakarta',
                 'status' => 'diproses',
-                'longitude' => '106.8272', // Example longitude
-                'latitude' => '-6.1751',   // Example latitude
+                'longitude' => '106.8272',
+                'latitude' => '-6.1751',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 5,  // Assuming user with ID 2 exists (admin)
-                'description' => 'This is a description for report 2.',
-                'photo' => 'photo2.jpg',
-                'location' => 'Location 2',
+                'user_id' => 3, // ID pengguna warga pertama
+                'description' => 'Lampu jalan mati di sekitar taman kota.',
+                'photo' => 'lampu_jalan_mati.jpg',
+                'location' => 'Taman Bungkul, Surabaya',
                 'status' => 'selesai',
-                'longitude' => '107.6010', // Example longitude
-                'latitude' => '-6.2088',   // Example latitude
+                'longitude' => '107.6010',
+                'latitude' => '-7.2575',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 4,  // Assuming user with ID 3 exists (warga)
-                'description' => 'This is a description for report 3.',
-                'photo' => 'photo3.jpg',
-                'location' => 'Location 3',
-                'status' => 'diproses',
-                'longitude' => '108.9390', // Example longitude
-                'latitude' => '-6.1512',   // Example latitude
+                'user_id' => 4, // ID pengguna warga kedua
+                'description' => 'Pohon tumbang akibat angin kencang.',
+                'photo' => 'pohon_tumbang.jpg',
+                'location' => 'Jalan Diponegoro, Bandung',
+                'status' => 'diajukan',
+                'longitude' => '107.6191',
+                'latitude' => '-6.9175',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
