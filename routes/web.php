@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,3 +33,6 @@ Route::get('/reports/create', [ReportController::class, 'create'])->name('report
 Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
 Route::get('reports/{id}/edit', [ReportController::class, 'edit'])->name('reports.edit');
 Route::put('reports/{id}', [ReportController::class, 'update'])->name('reports.update');
+
+// Notifications
+Route::resource('notifications', NotificationController::class);

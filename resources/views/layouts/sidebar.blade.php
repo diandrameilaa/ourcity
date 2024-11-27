@@ -24,11 +24,11 @@
                     </li>
 
                     <!-- Dashboard -->
-                    
+
 
                     <!-- Projects (Visible to all roles) -->
                     <li>
-                        <a class="nav-link" href="{{ route('projects.index') }}">
+                        <a class="nav-link" href="/">
                             <i data-feather="briefcase"></i><span>Projects</span>
                         </a>
                     </li>
@@ -42,7 +42,7 @@
 
                     <!-- Discussions (Visible to all roles) -->
                     <li>
-                        <a class="nav-link" href="{{ route('discussions.index') }}">
+                        <a class="nav-link" href="/">
                             <i data-feather="message-square"></i><span>Discussions</span>
                         </a>
                     </li>
@@ -50,7 +50,7 @@
                     <!-- Admin-specific menu -->
                     @if(Auth::user()->role === 'admin')
                         <li>
-                            <a class="nav-link" href="{{ route('user.index') }}">
+                            <a class="nav-link" href="/">
                                 <i data-feather="user"></i><span>User</span>
                             </a>
                         </li>
