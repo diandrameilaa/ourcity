@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProjectController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,3 +48,13 @@ Route::get('/projects/create', [ProjectController::class, 'create'])->name('proj
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
 Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
+
+ // Routes for user
+ Route::get('/user', [UserController::class, 'index'])->name('user.index');
+ Route::get('/user/data', [UserController::class, 'getData'])->name('user.data');
+ Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+ Route::post('/user', [UserController::class, 'store'])->name('user.store');
+ Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+ Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+ Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+ Route::post('/user/status', [UserController::class, 'toggleStatus'])->name('user.toggle_status');

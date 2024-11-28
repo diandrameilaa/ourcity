@@ -50,7 +50,7 @@
                     <!-- Admin-specific menu -->
                     @if(Auth::user()->role === 'admin')
                         <li>
-                            <a class="nav-link" href="/">
+                            <a class="nav-link" href="user.index">
                                 <i data-feather="user"></i><span>User</span>
                             </a>
                         </li>
