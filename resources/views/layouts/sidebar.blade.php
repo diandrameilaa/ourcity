@@ -28,7 +28,7 @@
 
                     <!-- Projects (Visible to all roles) -->
                     <li>
-                        <a class="nav-link" href="/">
+                        <a class="nav-link" href="{{ route('projects.index') }}">
                             <i data-feather="briefcase"></i><span>Projects</span>
                         </a>
                     </li>
