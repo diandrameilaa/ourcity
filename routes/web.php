@@ -6,6 +6,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\DiscussionController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,8 @@ use App\Http\Controllers\ProjectController;
 Route::get('/', function () {
     return redirect('/login');
 });
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/login', [AuthController::class, 'showLoginForm']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -58,3 +62,8 @@ Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projec
  Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
  Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
  Route::post('/user/status', [UserController::class, 'toggleStatus'])->name('user.toggle_status');
+
+ // Discussions
+ Route::get('/discussions', [DiscussionController::class, 'index'])->name('discussions.index');
+ Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store');
+ Route::delete('/discussions/{id}', [DiscussionController::class, 'destroy'])->name('discussions.destroy');

@@ -20,10 +20,6 @@ class NotificationController extends Controller
                 ->addColumn('status', function ($notification) {
                     return $notification->is_sent ? 'Sent' : 'Pending';
                 })
-                ->addColumn('action', function ($notification) {
-                    return '<button type="button" class="btn btn-info btn-sm" onclick="viewNotification(' . $notification->id . ')">View</button>';
-                })
-                ->rawColumns(['action'])
                 ->make(true);
         }
 

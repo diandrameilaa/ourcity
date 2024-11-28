@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('is_sent')->default(false); // Status pengiriman
             $table->timestamps();
         });
-        
+
     }
 
     /**

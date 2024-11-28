@@ -42,7 +42,7 @@
 
                     <!-- Discussions (Visible to all roles) -->
                     <li>
-                        <a class="nav-link" href="/">
+                        <a class="nav-link" href="{{ route('discussions.index') }}">
                             <i data-feather="message-square"></i><span>Discussions</span>
                         </a>
                     </li>
@@ -50,7 +50,7 @@
                     <!-- Admin-specific menu -->
                     @if(Auth::user()->role === 'admin')
                         <li>
-                            <a class="nav-link" href="user.index">
+                            <a class="nav-link" href="{{ route('user.index') }}">
                                 <i data-feather="user"></i><span>User</span>
                             </a>
                         </li>
