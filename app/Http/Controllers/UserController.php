@@ -17,7 +17,7 @@ class UserController extends Controller
     public function getData()
     {
         $users = DB::table('users');
-        
+
         return DataTables::of($users)
             ->addColumn('action', function ($user) {
                 return '<button type="button" class="btn btn-primary edit-btn" data-id="' . $user->id . '">Edit</button>';
@@ -27,13 +27,13 @@ class UserController extends Controller
                 $iconClass = $user->status === 0 ? 'fa-check' : 'fa-times'; // Check for 0 for active, 1 for inactive
                 $buttonClass = $user->status === 0 ? 'btn-success' : 'btn-danger'; // Button class based on status
                 $buttonText = $user->status === 0 ? 'Active' : 'Inactive'; // Text based on status
-                
+
                 return '<button type="button" class="btn ' . $buttonClass . ' toggle-status" data-id="' . $user->id . '"><i class="fa ' . $iconClass . '"></i> ' . $buttonText . '</button>';
             })
             ->rawColumns(['action', 'status'])
             ->make(true);
     }
-    
+
 
     public function store(Request $request)
 {
@@ -106,8 +106,11 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        // Delete data using query builder
-        DB::table('users')->where('id', $id)->delete();
+        $deleted = DB::table('users')->where('id', $id)->delete();
+
+        if (!$deleted) {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
 
         return response()->json(['success' => true]);
     }
@@ -118,12 +121,12 @@ class UserController extends Controller
         $currentStatus = DB::table('users')
             ->where('id', $request->id)
             ->value('status');
-    
+
         $newStatus = !$currentStatus; // Flip the current status (0 becomes 1, 1 becomes 0)
         DB::table('users')
             ->where('id', $request->id)
             ->update(['status' => $newStatus]);
-    
+
         return response()->json(['status' => $newStatus]);
     }
 }
