@@ -108,6 +108,7 @@
         })
         .catch(error => console.error("Error fetching project data:", error));
 
+        // memasukkan add project agar bisa ke tabel admin dan warga
     // Inisialisasi DataTable
     $(document).ready(function() {
         var columns = [
