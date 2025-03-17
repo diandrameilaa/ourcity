@@ -21,14 +21,14 @@ class ReportControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    /** @test 1*/
     public function user_can_access_reports_index_page()
     {
         $response = $this->actingAs($this->user)->get(route('reports.index'));
         $response->assertStatus(200);
     }
 
-    /** @test */
+    /** @test 2*/
     public function user_can_get_reports_data()
     {
         DB::table('reports')->insert([
@@ -66,14 +66,14 @@ class ReportControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /** @test 3*/
     public function user_can_access_create_report_page()
     {
         $response = $this->actingAs($this->user)->get(route('reports.create'));
         $response->assertStatus(200);
     }
 
-    /** @test */
+    /** @test 4*/
     public function user_can_access_edit_report_page()
     {
         $reportId = DB::table('reports')->insertGetId([
@@ -89,11 +89,10 @@ class ReportControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)->get(route('reports.edit', $reportId));
-
         $response->assertStatus(200);
     }
 
-    /** @test */
+    /** @test 5*/
     public function user_can_update_a_report()
     {
         $reportId = DB::table('reports')->insertGetId([
@@ -122,7 +121,7 @@ class ReportControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /** @test 6*/
     public function user_can_delete_a_report()
     {
         $reportId = DB::table('reports')->insertGetId([
@@ -142,5 +141,51 @@ class ReportControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
         $this->assertDatabaseMissing('reports', ['id' => $reportId]);
+    }
+    
+       /** @test */
+    public function test_report_store_functionality()
+    {
+        // Simulasi file gambar
+        $file = UploadedFile::fake()->image('report.jpg');
+
+        // Data valid
+        $validData = [
+            'description' => 'Test report description',
+            'photo' => $file,
+            'location' => 'Test Location',
+            'longitude' => '123.456',
+            'latitude' => '-123.456',
+        ];
+
+        // Simulasi permintaan POST dengan data valid
+        $response = $this->post(route('reports.store'), $validData);
+
+        // Pastikan data tersimpan di database
+        $this->assertDatabaseHas('reports', [
+            'description' => 'Test report description',
+            'location' => 'Test Location',
+            'status' => 'diajukan',
+            'longitude' => '123.456',
+            'latitude' => '-123.456',
+        ]);
+
+        // Pastikan redirect ke halaman index dengan pesan sukses
+        $response->assertRedirect(route('reports.index'));
+        $response->assertSessionHas('success', 'Report created successfully!');
+
+        // Data tidak valid
+        $invalidData = [
+            'description' => '', // Kosong, harusnya required
+            'location' => '', // Kosong, harusnya required
+            'longitude' => '', // Kosong, harusnya required
+            'latitude' => '', // Kosong, harusnya required
+        ];
+
+        // Simulasi permintaan POST dengan data tidak valid
+        $responseInvalid = $this->post(route('reports.store'), $invalidData);
+
+        // Pastikan ada error validasi
+        $responseInvalid->assertSessionHasErrors(['description', 'location', 'longitude', 'latitude']);
     }
 }

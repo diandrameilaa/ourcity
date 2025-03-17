@@ -8,7 +8,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ReportController extends Controller
 {
-    /**
+    /**1
      * Display a listing of the resource.
      */
     public function index()
@@ -16,7 +16,7 @@ class ReportController extends Controller
         return view('reports.index');
     }
 
-    // Ambil Data untuk DataTables
+    // 2. Ambil Data untuk DataTables 
     public function getData(Request $request)
     {
         $reports = DB::table('reports')
@@ -42,13 +42,14 @@ class ReportController extends Controller
     
 
     /**
-     * Show the form for creating a new resource.
+     * 3. Show the form for creating a new resource.
      */
     public function create()
     {
         return view('reports.create');
     }
 
+    /** 4 */
     public function store(Request $request)
     {
         // Validate the incoming data
@@ -106,7 +107,7 @@ class ReportController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 5. Show the form for editing the specified resource.
      */
     public function edit($id)
     {
@@ -121,7 +122,7 @@ class ReportController extends Controller
         return view('reports.edit', compact('report'));
     }
 
-    // Update the report data
+    // 6. Update the report data
     public function update(Request $request, $id)
     {
         // Validate the input fields
@@ -151,7 +152,7 @@ class ReportController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 7. Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
