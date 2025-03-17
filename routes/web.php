@@ -56,7 +56,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
 
 
-    // Notifications
+    //  Notifications
     Route::resource('notifications', NotificationController::class);
 
 });

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use App\Models\User;
 
-class ReportControllerTest extends TestCase
+class ReportTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,14 +21,14 @@ class ReportControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test 1*/
+    /** @test 1 */
     public function user_can_access_reports_index_page()
     {
         $response = $this->actingAs($this->user)->get(route('reports.index'));
         $response->assertStatus(200);
     }
 
-    /** @test 2*/
+    /** @test 2 */
     public function user_can_get_reports_data()
     {
         DB::table('reports')->insert([
@@ -66,14 +66,14 @@ class ReportControllerTest extends TestCase
         ]);
     }
 
-    /** @test 3*/
+    /** @test 3 */
     public function user_can_access_create_report_page()
     {
         $response = $this->actingAs($this->user)->get(route('reports.create'));
         $response->assertStatus(200);
     }
 
-    /** @test 4*/
+    /** @test 4 */
     public function user_can_access_edit_report_page()
     {
         $reportId = DB::table('reports')->insertGetId([
@@ -92,7 +92,7 @@ class ReportControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test 5*/
+    /** @test 5 */
     public function user_can_update_a_report()
     {
         $reportId = DB::table('reports')->insertGetId([
@@ -121,7 +121,7 @@ class ReportControllerTest extends TestCase
         ]);
     }
 
-    /** @test 6*/
+    /** @test 6 */
     public function user_can_delete_a_report()
     {
         $reportId = DB::table('reports')->insertGetId([
