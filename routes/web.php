@@ -35,7 +35,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
- //Route::middleware(['auth', 'admin'])->group(function () {
+ Route::middleware(['auth', 'admin'])->group(function () {
     // Admin routes, accessible only to authenticated admins
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/data', [UserController::class, 'getData'])->name('user.data');
@@ -56,13 +56,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
 
 
-    // Notifications
+    //  Notifications
     Route::resource('notifications', NotificationController::class);
 
-//});
+});
 
 
-//Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Reports
@@ -82,4 +82,4 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/discussions', [DiscussionController::class, 'index'])->name('discussions.index');
     Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store');
     Route::delete('/discussions/{id}', [DiscussionController::class, 'destroy'])->name('discussions.destroy');
-//});
+});
