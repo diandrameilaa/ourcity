@@ -142,6 +142,7 @@ class ReportController extends Controller
             return redirect()->route('reports.index')->with('error', 'Report not found!');
         }
 
+
         // Update the report
         DB::table('reports')->where('id', $id)->update($updateData);
 
