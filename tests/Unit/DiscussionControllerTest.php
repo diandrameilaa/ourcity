@@ -88,7 +88,7 @@ class DiscussionControllerTest extends TestCase
         ]);
 
         // Simulasikan user login
-        Auth::loginUsingId(3);
+        Auth::loginUsingId(1);
 
         // Kirim DELETE request untuk menghapus pesan
         $response = $this->delete(route('discussions.destroy', 3));
@@ -97,7 +97,7 @@ class DiscussionControllerTest extends TestCase
 
         // Pastikan status is_deleted berubah menjadi true
         $this->assertDatabaseHas('discussions', [
-            'id' => 3,
+            'id' => 4,
             'is_deleted' => true,
         ]);
     }
