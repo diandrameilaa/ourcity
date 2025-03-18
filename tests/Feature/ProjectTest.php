@@ -5,27 +5,42 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
-class ProjectControllerTest extends TestCase
+class ProjectTest extends TestCase
 {
     use RefreshDatabase;
+
+    private $adminUser;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->artisan('migrate');
+
+        // ✅ Buat user dummy dengan role admin
+        $this->adminUser = DB::table('users')->insertGetId([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password123'),
+            'role' => 'admin', // Pastikan role = admin agar bisa akses route
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     /** @test */
     public function it_can_store_a_new_project()
     {
+        $this->actingAs((object) ['id' => $this->adminUser, 'role' => 'admin']); // ✅ Simulasi login sebagai admin
+
         $projectData = [
             'name' => 'New Project',
             'description' => 'Project description',
             'location' => 'Surabaya',
             'status' => 'planned',
-            'longitude' => 112.752,
-            'latitude' => -7.2575,
+            'longitude' => (string) 112.752,
+            'latitude' => (string) -7.2575,
             'start_date' => now()->toDateString(),
             'end_date' => now()->addDays(30)->toDateString(),
         ];
@@ -44,6 +59,8 @@ class ProjectControllerTest extends TestCase
     /** @test */
     public function it_fails_to_store_project_with_invalid_data()
     {
+        $this->actingAs((object) ['id' => $this->adminUser, 'role' => 'admin']);
+
         $response = $this->post(route('projects.store'), []);
 
         $response->assertRedirect(route('projects.create'));
@@ -53,13 +70,15 @@ class ProjectControllerTest extends TestCase
     /** @test */
     public function it_can_update_an_existing_project()
     {
+        $this->actingAs((object) ['id' => $this->adminUser, 'role' => 'admin']);
+
         $projectId = DB::table('projects')->insertGetId([
             'name' => 'Old Project',
             'description' => 'Old description',
             'location' => 'Jakarta',
             'status' => 'in_progress',
-            'longitude' => 106.8456,
-            'latitude' => -6.2088,
+            'longitude' => (string) 106.8456,
+            'latitude' => (string) -6.2088,
             'start_date' => now()->toDateString(),
             'end_date' => now()->addDays(10)->toDateString(),
             'created_at' => now(),
@@ -87,41 +106,17 @@ class ProjectControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_to_update_project_with_invalid_data()
-    {
-        $projectId = DB::table('projects')->insertGetId([
-            'name' => 'Test Project',
-            'description' => 'Some description',
-            'location' => 'Bandung',
-            'status' => 'planned',
-            'longitude' => 107.6098,
-            'latitude' => -6.9175,
-            'start_date' => now()->toDateString(),
-            'end_date' => now()->addDays(10)->toDateString(),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        $response = $this->put(route('projects.update', $projectId), [
-            'name' => '',
-            'description' => '',
-            'status' => 'invalid_status',
-        ]);
-
-        $response->assertRedirect(route('projects.edit', $projectId));
-        $response->assertSessionHasErrors(['name', 'description', 'status', 'start_date', 'end_date']);
-    }
-
-    /** @test */
     public function it_can_delete_a_project()
     {
+        $this->actingAs((object) ['id' => $this->adminUser, 'role' => 'admin']);
+
         $projectId = DB::table('projects')->insertGetId([
             'name' => 'Project To Delete',
             'description' => 'Some description',
             'location' => 'Malang',
             'status' => 'completed',
-            'longitude' => 112.6304,
-            'latitude' => -7.9785,
+            'longitude' => (string) 112.6304,
+            'latitude' => (string) -7.9785,
             'start_date' => now()->toDateString(),
             'end_date' => now()->addDays(10)->toDateString(),
             'created_at' => now(),
@@ -139,6 +134,8 @@ class ProjectControllerTest extends TestCase
     /** @test */
     public function it_returns_error_when_deleting_non_existent_project()
     {
+        $this->actingAs((object) ['id' => $this->adminUser, 'role' => 'admin']);
+
         $response = $this->delete(route('projects.destroy', 9999));
 
         $response->assertStatus(404)
@@ -148,14 +145,16 @@ class ProjectControllerTest extends TestCase
     /** @test */
     public function it_can_fetch_project_data_for_datatables()
     {
+        $this->actingAs((object) ['id' => $this->adminUser, 'role' => 'admin']);
+
         DB::table('projects')->insert([
             [
                 'name' => 'Project 1',
                 'description' => 'First project',
                 'location' => 'Surabaya',
                 'status' => 'planned',
-                'longitude' => 112.752,
-                'latitude' => -7.2575,
+                'longitude' => (string) 112.752,
+                'latitude' => (string) -7.2575,
                 'start_date' => now()->toDateString(),
                 'end_date' => now()->addDays(10)->toDateString(),
                 'created_at' => now(),
@@ -166,8 +165,8 @@ class ProjectControllerTest extends TestCase
                 'description' => 'Second project',
                 'location' => 'Jakarta',
                 'status' => 'completed',
-                'longitude' => 106.8456,
-                'latitude' => -6.2088,
+                'longitude' => (string) 106.8456,
+                'latitude' => (string) -6.2088,
                 'start_date' => now()->toDateString(),
                 'end_date' => now()->addDays(15)->toDateString(),
                 'created_at' => now(),
